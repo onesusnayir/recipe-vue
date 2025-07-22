@@ -19,6 +19,6 @@
             It's a perfect starting api to practice Frontend skill to fetch data.
         </p>
         <p class="px-10 mt-5">If you guys interested to use TheMealDB api you guys can click button below</p>
-        <button class="ml-10 mt-2 px-5 py-2 rounded-xl bg-[var(--color-primary)] font-semibold cursor-pointer"><a>Go to TheMealDB Web</a></button>
+        <button class="ml-10 mt-2 px-5 py-2 rounded-xl bg-[var(--color-primary)] font-semibold cursor-pointer"><a href="https://www.themealdb.com" target="_blank">Go to TheMealDB Web</a></button>
     </section>
 </template>

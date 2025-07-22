@@ -1,12 +1,11 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 
 const categories = ref([])
 const category = ref('')
-const meals = ref([{}])
+const meals = reactive([])
 
 onMounted(async () => {
-    console.log('jalan')
     const resCategories = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list')
 
     const categoriesData = await resCategories.json()
@@ -22,7 +21,7 @@ onMounted(async () => {
     const resMealsByCategory = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category.value}`)
 
     const mealsByCategoryData = await resMealsByCategory.json()
-    meals.value = mealsByCategoryData.meals
+    meals.push(...mealsByCategoryData.meals)
 })
 
 const handleCategory = async() => {
@@ -47,7 +46,11 @@ const handleCategory = async() => {
                 <article v-for="(item) in meals" class="rounded-2xl flex flex-col gap-3" :key="item.idMeal">
                     <img class="w-full rounded-2xl" :src="item.strMealThumb"/>
                     <h3 class="font-semibold text-center">{{ item.strMeal }}</h3>
-                    <button class="w-full mt-auto text-center bg-[var(--color-primary)] rounded-md">See recipe</button>
+                    <button class="w-full mt-auto text-center bg-[var(--color-primary)] rounded-md">
+                        <router-link :to="{ name: 'RecipeDetail', params: { id: item.idMeal } }">
+                            See Recipe
+                        </router-link>
+                    </button>
                 </article>
             </div>
         </section>
