@@ -3,7 +3,7 @@ import { onMounted, reactive, ref } from 'vue';
 
 const categories = ref([])
 const category = ref('')
-const meals = reactive([])
+const meals = ref([])
 
 onMounted(async () => {
     const resCategories = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list')
@@ -21,7 +21,7 @@ onMounted(async () => {
     const resMealsByCategory = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category.value}`)
 
     const mealsByCategoryData = await resMealsByCategory.json()
-    meals.push(...mealsByCategoryData.meals)
+    meals.value = mealsByCategoryData.meals
 })
 
 const handleCategory = async() => {
@@ -42,11 +42,11 @@ const handleCategory = async() => {
                     <option v-for="(item) in categories">{{ item }}</option>
                 </select>
             </label>
-            <div class="grid grid-cols-5 gap-5 py-5">
-                <article v-for="(item) in meals" class="rounded-2xl flex flex-col gap-3" :key="item.idMeal">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 py-5">
+                <article v-for="(item) in meals" class="rounded-2xl p-5 flex flex-col gap-3 shadow-2xl" :key="item.idMeal">
                     <img class="w-full rounded-2xl" :src="item.strMealThumb"/>
-                    <h3 class="font-semibold text-center">{{ item.strMeal }}</h3>
-                    <button class="w-full mt-auto text-center bg-[var(--color-primary)] rounded-md">
+                    <h3 class="flex-1 flex items-center justify-center text-center font-semibold">{{ item.strMeal }}</h3>
+                    <button class="w-full mt-auto py-1 text-center font-semibold bg-[var(--color-primary)] rounded-md">
                         <router-link :to="{ name: 'RecipeDetail', params: { id: item.idMeal } }">
                             See Recipe
                         </router-link>
